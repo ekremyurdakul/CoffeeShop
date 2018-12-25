@@ -3,6 +3,7 @@ package Database;
 import java.sql.*;
 
 import Utils.AppLogger;
+import models.User;
 
 //import AppLogger;
 
@@ -87,8 +88,6 @@ public class DatabaseConnector {
 	}
 	
 	public boolean login(String email, String password) throws ClassNotFoundException, SQLException {
-		
-		
 		if(con == null)
 			getConnection(false);
 		
@@ -108,4 +107,24 @@ public class DatabaseConnector {
 		return false;
 	}
 
+	public boolean register(User newUser) throws SQLException, ClassNotFoundException {
+
+	    if(con == null)
+            getConnection(false);
+        statement = con.createStatement();
+        String query = "INSERT INTO users VALUES(?,?,?,?,?,?)";
+        prep = con.prepareStatement(query);
+        prep.setString(1, newUser.name);
+        prep.setString(2, newUser.address);
+        prep.setString(2, newUser.city);
+        prep.setString(2, newUser.telno);
+        prep.setString(2, newUser.email);
+        prep.setString(2, newUser.username);
+        prep.setString(2, newUser.password);
+        prep.setString(2, newUser.creditcard);
+        prep.setString(2, newUser.securitycode);
+        res = prep.executeQuery();
+
+        return true;
+    }
 }
